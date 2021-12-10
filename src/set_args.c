@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 23:01:47 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/10/21 02:32:47 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/08 15:59:35 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	set_args(char *buf, int *arg)
 {
-	char tmp;
+	char	tmp;
 
 	tmp = ft_is_num(buf);
 	if (tmp == 0)
