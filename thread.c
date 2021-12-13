@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 15:07:54 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/12 01:51:58 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/13 08:20:17 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,56 +16,63 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	*test(void *val)
+typedef struct	s_data
 {
-	int	*value;
+	int				val;
+	int				i;
+	char			**arg;
+	pthread_mutex_t	lock;
+}				t_data;
 
-	value = (int*)val;
-	printf("You decided to print %d.\n", *value);
+
+void	*test(void *data)
+{
+	t_data	*tmp;
+
+	tmp = data;
+	pthread_mutex_lock(&tmp->lock);
+	tmp->val = atoi(tmp->arg[tmp->i]);
+	printf("You decidedto print %d.\n", tmp->val);
+	tmp->i += 1;
+	pthread_mutex_unlock(&tmp->lock);
 	return NULL;
 }
 
 int	main(int ac, char **av)
 {
-	int			*val;
 	int			i;
-	pthread_t	little_boy[ac - 1];
+	pthread_t	*little_boy;
+	t_data		data;
 
+	data.val = 0;
+	data.i = 1;
+	data.arg = av;
 	if (ac < 2)
 	{
-		printf("Usage: %s <NUM>.\n", av[0]);
+		printf("Usage: %s <NUM1 NUM2 NUM3 ...>.\n", av[0]);
 		return (EXIT_SUCCESS);
 	}
+	if (pthread_mutex_init(&data.lock, NULL))
+	{
+		printf("Error init mutex");
+		return (EXIT_FAILURE);
+	}
 	i = 1;
-	val = (int*)malloc(sizeof(int) * ac - 1);
+	little_boy = (pthread_t*)malloc(sizeof(pthread_t) * ac - 1);
 	while (i < ac)
 	{
-		if (!val)
-		{
-			if (i > 1)
-				free(val);
-			printf("Error malloc.\n");
-			return (EXIT_SUCCESS);
-		}
-		val[i - 1] = atoi(av[i]);
-		if (!val[i - 1])
-		{
-			printf("Atoi didn't appreciate what you gave to it.\n");
-			return (EXIT_SUCCESS);
-		}
-		if (pthread_create(&little_boy[i - 1], NULL, test, &val[i - 1]) != 0)
+		if (pthread_create(&little_boy[i - 1], NULL, test, &data) != 0)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	free(val);
 	i = 0;
 	while (i < ac - 1)
 	{
 		if (pthread_join(little_boy[i], NULL) != 0)
 			return (EXIT_FAILURE);
 		i++;
-		if (i == ac - 1)
-			printf("\nAll threads joined.\n");
 	}
+	pthread_mutex_destroy(&data.lock);
+	free(little_boy);
 	return (EXIT_SUCCESS);
 }
