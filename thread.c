@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 15:07:54 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/10 18:39:07 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/12 01:51:58 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,45 @@ void	*test(void *val)
 
 int	main(int ac, char **av)
 {
-	int			val;
-	pthread_t	little_boy;
+	int			*val;
+	int			i;
+	pthread_t	little_boy[ac - 1];
 
 	if (ac < 2)
 	{
 		printf("Usage: %s <NUM>.\n", av[0]);
 		return (EXIT_SUCCESS);
 	}
-	val = atoi(av[1]);
-	if (!val)
+	i = 1;
+	val = (int*)malloc(sizeof(int) * ac - 1);
+	while (i < ac)
 	{
-		printf("Atoi didn't appreciate what you gave to it.\n");
-		return (EXIT_SUCCESS);
+		if (!val)
+		{
+			if (i > 1)
+				free(val);
+			printf("Error malloc.\n");
+			return (EXIT_SUCCESS);
+		}
+		val[i - 1] = atoi(av[i]);
+		if (!val[i - 1])
+		{
+			printf("Atoi didn't appreciate what you gave to it.\n");
+			return (EXIT_SUCCESS);
+		}
+		if (pthread_create(&little_boy[i - 1], NULL, test, &val[i - 1]) != 0)
+			return (EXIT_FAILURE);
+		i++;
 	}
-	while (i < )
-	if ((pthread_create(&little_boy, NULL, test, &val)) != 0)
-		return (EXIT_FAILURE);
-	if (pthread_join(little_boy, NULL) != 0)
-		return (EXIT_FAILURE);
+	free(val);
+	i = 0;
+	while (i < ac - 1)
+	{
+		if (pthread_join(little_boy[i], NULL) != 0)
+			return (EXIT_FAILURE);
+		i++;
+		if (i == ac - 1)
+			printf("\nAll threads joined.\n");
+	}
 	return (EXIT_SUCCESS);
 }

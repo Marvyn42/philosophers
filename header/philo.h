@@ -6,13 +6,14 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 22:34:46 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/10/21 01:59:35 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/08 16:10:47 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <pthread.h>
 # include <unistd.h>
 # include <string.h>
 # include <stdio.h>

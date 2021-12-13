@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/20 22:46:26 by mamaquig          #+#    #+#              #
-#    Updated: 2021/10/21 02:18:29 by mamaquig         ###   ########.fr        #
+#    Updated: 2021/12/08 16:13:06 by mamaquig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,10 @@ SRC			=	$(addprefix src/,				\
 				)
 OBJ			=	$(SRC:.c=.o)
 CC			=	gcc
-HEADER		=	-Iheader
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address -g3
+HEADER		=	-Iheader -lpthread
+CFLAGS		=	-D_REENTRANT 
+# -Wall -Wextra -Werror
+# -fsanitize=address -g3
 
 all: $(NAME)
 
