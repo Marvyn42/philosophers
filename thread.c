@@ -6,73 +6,118 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 15:07:54 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/13 08:20:17 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:23:01 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "thread.h"
 
-typedef struct	s_data
+
+int		fct_mort_philo()
 {
-	int				val;
-	int				i;
-	char			**arg;
-	pthread_mutex_t	lock;
-}				t_data;
+	//set 3 value: -1 philo mort, 0 les philo ont assez mangés, 1 rien a changé
+}
 
-
-void	*test(void *data)
+char	init_data(t_data *data, unsigned int **arg, int ac)
 {
-	t_data	*tmp;
+	data->number_of_philosophers = arg[0];
+	data->time_to_die = arg[1];
+	data->time_to_eat = arg[2];
+	data->time_to_sleep = arg[3];
+	if (ac == 6)
+		data->number_of_times_each_philosopher_must_eat = arg[4];
+	if (pthread_mutex_init(&(data->lock), NULL))
+	{
+		printf("Error init mutex");
+		return (FALSE);
+	}
+}
 
-	tmp = data;
-	pthread_mutex_lock(&tmp->lock);
-	tmp->val = atoi(tmp->arg[tmp->i]);
-	printf("You decidedto print %d.\n", tmp->val);
-	tmp->i += 1;
-	pthread_mutex_unlock(&tmp->lock);
-	return NULL;
+char	create_philo(int nb_of_philo, unsigned int *arg, t_thread *thread, int ac)
+{
+	int			i;
+	t_thread	*tmp;
+	t_data		data;
+
+	if (!init_data(&data, arg, ac))
+		return (FALSE);
+	i = 0;
+	while (i < nb_of_philo)
+	{
+		thread = (t_thread*)malloc(sizeof(t_thread));
+		if (!thread)
+			return (NULL);
+		if (!i)
+			tmp = thread;
+		thread->id = i + 1;
+		thread->data = data;
+		thread = thread->next;
+	}
+	thread = tmp;
+	return (TRUE);
+}
+
+char	philo_hungry_or_alive()
+{
+	//set une data pour savoir si on doit stop ou non
+	//faire un tour de liste pour check cette data
+}
+
+char	set_data()
+{
+	if ((ac != 5 && ac != 6) || !ft_isdigit(av, &tab_arg))
+	{
+		printf("Usage:\n%s <NUM1> <NUM2> <NUM3> <NUM4> (optionnal)<NUM5>.\nNUM can only be a positive integer between 0 and 2147483647, and contain nothing else than a digit.\n", av[0]);
+		return (FALSE);
+	}
+	if (!create_philo(ft_atoi(av[1]), tab_arg, thread, ac))
+		return (FALSE);
 }
 
 int	main(int ac, char **av)
 {
-	int			i;
-	pthread_t	*little_boy;
-	t_data		data;
-
-	data.val = 0;
-	data.i = 1;
-	data.arg = av;
-	if (ac < 2)
-	{
-		printf("Usage: %s <NUM1 NUM2 NUM3 ...>.\n", av[0]);
-		return (EXIT_SUCCESS);
-	}
-	if (pthread_mutex_init(&data.lock, NULL))
-	{
-		printf("Error init mutex");
+	int				i;
+	int				ret;
+	unsigned int	*tab_arg;
+	t_thread		*thread;
+	
+	///////////////////////////////////////////////////////////////////////////
+	if (!set_data())
 		return (EXIT_FAILURE);
-	}
-	i = 1;
-	little_boy = (pthread_t*)malloc(sizeof(pthread_t) * ac - 1);
-	while (i < ac)
-	{
-		if (pthread_create(&little_boy[i - 1], NULL, test, &data) != 0)
-			return (EXIT_FAILURE);
-		i++;
-	}
+	///////////////////////////////////////////////////////////////////////////
+	ret = 1;
 	i = 0;
-	while (i < ac - 1)
+//---------------------------------------------------------------------------//
+	while (ret)
 	{
-		if (pthread_join(little_boy[i], NULL) != 0)
+		if (i < thread->data.number_of_philosophers)
+		{
+			if (pthread_create(&(thread->philo), NULL, philo_routine, thread) != 0)
+				return (EXIT_FAILURE);
+			if (i != thread->data.number_of_philosophers - 1)
+				thread = thread->next;
+			i++;
+		}
+		//faire la boucle ici de alive ?
+		ret = philo_hungry_or_alive(thread);
+		if (ret = -1)
+			return (fct_mort_philo(thread));
+	}
+//---------------------------------------------------------------------------//
+	i = 0;
+	while (i < thread->data.number_of_philosophers)
+	{
+		if (pthread_join(&(thread->philo), NULL) != 0)
 			return (EXIT_FAILURE);
+		if (i != thread->data.number_of_philosophers - 1)
+			thread = thread->next;
 		i++;
 	}
-	pthread_mutex_destroy(&data.lock);
-	free(little_boy);
+	// secur le mutex destroy ??
+	pthread_mutex_destroy(&(thread->data.lock));
+	ft_free(&thread);
 	return (EXIT_SUCCESS);
 }
+
+//finir de set_data.
+//m'attaquer à la routine
