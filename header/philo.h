@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread.h                                           :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/15 18:15:55 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/18 19:30:31 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef THREAD_H
-# define THREAD_H
+//TODO: CHECK NORME
+
+#ifndef PHILO_H
+# define PHILO_H
 
 # include <pthread.h>
 # include <unistd.h>
 # include <string.h>
 # include <stdio.h>
+#include <limits.h>
 # include <stdlib.h>
 
-# define FALSE 0
-# define TRUE 1
+typedef enum e_bool
+{
+	FALSE = 0,
+	TRUE
+}			t_bool;
 
 typedef enum e_fork
 {
@@ -47,10 +53,31 @@ typedef struct s_thread
 	t_thread		*next;
 }			t_thread;
 
-void			*philo_routine(void *data);
-char			ft_isdigit(char **arg, int **tab_arg);
-void			ft_free(t_thread **thread);
-char			int_size(int **tab_arg, char **arg);
+/*
+**	memory_allocation.c
+*/
+void			*ft_calloc(size_t count, size_t size);
+void			ft_free(t_thread *thread);
+t_bool			close_data(t_thread *thread);
+
+/*
+**	utils.c
+*/
 unsigned int	ft_atoi(const char *str);
+t_bool			int_size(int *tab_arg, char **arg);
+t_bool			ft_isdigit(char **arg, int *tab_arg);
+
+/*
+**	data_struct.c
+*/
+t_bool			create_philo(int nb_philo, unsigned int *arg, t_thread *thread,
+					int ac);
+t_bool			init_data(t_data *data, unsigned int *arg, int ac);
+t_bool			set_data(int ac, char **av, t_thread *thread);
+
+/*
+**	routine.c
+*/
+void			*philo_routine(void *data);
 
 #endif

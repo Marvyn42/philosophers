@@ -6,15 +6,13 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:18:10 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/15 18:15:04 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/18 19:22:24 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "thread.h"
+#include "philo.h"
 
-
-//CHECK SI c'est entre 1 et 2147483647
-char	int_size(int **tab_arg, char **arg)
+t_bool	int_size(int *tab_arg, char **arg)
 {
 	int	i;
 
@@ -22,7 +20,7 @@ char	int_size(int **tab_arg, char **arg)
 	while (arg[i])
 	{
 		tab_arg[i] = ft_atoi(arg[i]);
-		if (tab_arg[i] > __INT_MAX__)
+		if (tab_arg[i] > UINT_MAX)
 			return (FALSE);
 		i++;
 	}
@@ -32,7 +30,7 @@ char	int_size(int **tab_arg, char **arg)
 /*
 **	Check sur tout les arguments si ils ne contiennent que des entiers entre 0 et 2147483647
 */
-char	ft_isdigit(char **arg, int **tab_arg)
+t_bool	ft_isdigit(char **arg, int *tab_arg)
 {
 	int	i;
 	int	j;
@@ -57,21 +55,6 @@ char	ft_isdigit(char **arg, int **tab_arg)
 /*
 **	Free tout les maillons de ma liste t_thread *thread.
 */
-void	ft_free(t_thread **thread)
-{
-	t_thread	*tmp;
-
-	tmp = *thread;
-	thread = (*thread)->next;
-	free(tmp);
-	tmp = *thread;
-	while (*thread)
-	{
-		*thread = (*thread)->next;
-		free(tmp);
-		tmp = *thread;
-	}
-}
 
 unsigned int	ft_atoi(const char *str)
 {
