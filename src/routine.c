@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:09 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/18 20:44:36 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:02:32 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 void	*philo_routine(void *thread)
 {
-	t_thread	*tmp;
-	int			i;
+	t_thread		*tmp;
+	unsigned int	i;
 
 	i = 0;
 	tmp = thread;
-	while (i < tmp->data.number_of_times_each_philosopher_must_eat)
+	// while (i || tmp->data.ac_6 || i < tmp->data.number_of_times_each_philosopher_must_eat)
+	while (i)
 	{
+		if (tmp->data.ac_6 && i != tmp->data.number_of_times_each_philosopher_must_eat)
+			break;
 		// printf("timestamp_in_ms %d has taken a fork.\n", tmp->id);
 		if (pthread_mutex_lock(&tmp->data.lock) == 0)
 		{

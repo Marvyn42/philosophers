@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 19:21:39 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/18 19:30:58 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:04:56 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	ft_free(t_thread *thread)
 
 t_bool	close_data(t_thread *thread)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
 	while (i < thread->data.number_of_philosophers)
 	{
-		if (pthread_join(&(thread->philo), NULL) != 0)
+		if (pthread_join(thread->philo, NULL) != 0)
 			return (FALSE);
 		thread = thread->next;
 		i++;

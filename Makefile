@@ -6,7 +6,7 @@
 #    By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/20 22:46:26 by mamaquig          #+#    #+#              #
-#    Updated: 2021/12/18 19:21:35 by mamaquig         ###   ########.fr        #
+#    Updated: 2021/12/20 14:26:12 by mamaquig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC			=	$(addprefix src/,				\
 					data_struct.c				\
 					memory_allocation.c			\
 					utils.c						\
-				)								\
+				)
 OBJ			=	$(SRC:.c=.o)
 CC			=	gcc
 HEADER		=	-Iheader -lpthread
@@ -39,4 +39,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY:	all norme clean fclean re
+.PHONY:	all clean fclean re
