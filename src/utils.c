@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:18:10 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/20 18:34:44 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:02:31 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_bool	ft_isdigit(char **arg)
 	int	i;
 	int	j;
 
-	i = 0;
+	i = 1;
 	while (arg[i])
 	{
 		j = 0;
@@ -28,7 +28,7 @@ t_bool	ft_isdigit(char **arg)
 		{
 			if (arg[i][j] < '0' || arg[i][j] > '9')
 			{
-				printf("ok si c la je rigole\n");
+				printf("arg[i][j] = %c\n", arg[i][j]);
 				return (FALSE);
 			}
 			j++;

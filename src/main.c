@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 15:07:54 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/20 13:53:45 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/21 00:12:50 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@
 //	//faire un tour de liste pour check cette data
 //}
 
+void	printdata(t_data data)
+{
+	printf("%d\n", data.number_of_philosophers);
+	printf("%d\n", data.time_to_die);
+	printf("%d\n", data.time_to_eat);
+	printf("%d\n", data.time_to_sleep);
+	printf("%d\n", data.number_of_times_each_philosopher_must_eat);
+}
+
 int	main(int ac, char **av)
 {
 	unsigned int	i;
@@ -30,10 +39,11 @@ int	main(int ac, char **av)
 	t_thread		*thread;
 
 	thread = NULL;
-	if (!set_data(ac, av,thread))
+	if (!set_data(ac, av, thread))
 		return (EXIT_FAILURE);
 	ret = 1;
 	i = 0;
+	printdata(thread->data);
 //---------------------------------------------------------------------------//
 	while (ret)
 	{

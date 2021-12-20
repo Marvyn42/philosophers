@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/20 13:36:11 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/21 00:12:59 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,7 @@ t_bool			set_data(int ac, char **av, t_thread *thread);
 **	routine.c
 */
 void			*philo_routine(void *data);
+
+void	printdata(t_data data);
 
 #endif

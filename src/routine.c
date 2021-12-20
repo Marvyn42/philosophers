@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:09 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/20 14:02:32 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:01:59 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	*philo_routine(void *thread)
 	// while (i || tmp->data.ac_6 || i < tmp->data.number_of_times_each_philosopher_must_eat)
 	while (i)
 	{
+		// printf("test de thread\n");
 		if (tmp->data.ac_6 && i != tmp->data.number_of_times_each_philosopher_must_eat)
 			break;
 		// printf("timestamp_in_ms %d has taken a fork.\n", tmp->id);

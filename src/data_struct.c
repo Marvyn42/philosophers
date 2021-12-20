@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 01:30:20 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/20 18:33:02 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/21 00:13:22 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_bool	init_data(t_data *data, int ac, char **av)
 		printf("Error init mutex");
 		return (FALSE);
 	}
+	printdata(*data);
 	return (TRUE);
 }
 
