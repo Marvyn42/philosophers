@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/21 17:20:38 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/22 13:49:21 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_data
 	unsigned int	time_to_sleep;
 	unsigned int	number_of_times_each_philosopher_must_eat;
 	t_bool			ac_6;
+	t_bool			stop;
 	pthread_mutex_t	lock;
 	t_fork			fork;
 }			t_data;
@@ -48,6 +49,8 @@ typedef struct s_thread	t_thread;
 typedef struct s_thread
 {
 	unsigned int	id;
+	unsigned int	nb_meal;
+	t_bool			is_dead;
 	pthread_t		philo;
 	t_data			*data;
 	t_thread		*next;

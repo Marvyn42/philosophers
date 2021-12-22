@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 01:30:20 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/21 17:37:29 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:10:31 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ t_bool	init_data(t_data *data, int ac, char **av)
 		data->ac_6 = 1;
 	}
 	else
+	{
+		data->number_of_times_each_philosopher_must_eat = 0;
 		data->ac_6 = 0;
+	}
+	data->stop = 0;
 	if (!ret)
 	{
 		free(data);
@@ -89,6 +93,9 @@ g else than a digit.\n", av[0]);
 	if (ft_atoi(av[1], NULL) == 0 || (ac == 6 && ft_atoi(av[5], NULL) == 0))
 		return (FALSE);
 	if (!create_philo(ft_atoi(av[1], NULL), thread, ac, av))
+	{
+		close_data(thread, 0);
 		return (FALSE);
+	}
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 19:21:39 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/21 17:30:49 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:11:37 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ t_bool	close_data(t_thread **thread, t_bool tmp)
 	}
 	pthread_mutex_destroy(&((*thread)->data->lock));
 	ft_free(thread);
+	printf("Tout est free.\n");
 	return (TRUE);
 }
