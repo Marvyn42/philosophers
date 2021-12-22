@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/21 00:12:59 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:20:38 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_thread
 {
 	unsigned int	id;
 	pthread_t		philo;
-	t_data			data;
+	t_data			*data;
 	t_thread		*next;
 }			t_thread;
 
@@ -57,8 +57,8 @@ typedef struct s_thread
 **	memory_allocation.c
 */
 void			*ft_calloc(size_t count, size_t size);
-void			ft_free(t_thread *thread);
-t_bool			close_data(t_thread *thread);
+void			ft_free(t_thread **thread);
+t_bool			close_data(t_thread **thread, t_bool tmp);
 
 /*
 **	utils.c
@@ -69,15 +69,24 @@ t_bool			ft_isdigit(char **arg);
 /*
 **	data_struct.c
 */
-t_bool			create_philo(int nb_philo, t_thread *thread, int ac, char **av);
+t_bool			create_philo(unsigned int nb_philo, t_thread **tmp, int ac,
+					char **av);
 t_bool			init_data(t_data *data, int ac, char **av);
-t_bool			set_data(int ac, char **av, t_thread *thread);
+t_bool			set_data(int ac, char **av, t_thread **thread);
+
+/*
+**	list.c
+*/
+t_thread		*ft_create_elem(t_data *data, unsigned int id);
+void			ft_list_push_back(t_thread **begin_list, t_data *data,
+					unsigned int id);
 
 /*
 **	routine.c
 */
 void			*philo_routine(void *data);
 
-void	printdata(t_data data);
+//TODO:REMOVE
+void	printdata(t_thread *thread);
 
 #endif

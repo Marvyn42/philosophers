@@ -6,14 +6,15 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:18:10 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/20 21:02:31 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:35:03 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-**	Check sur tout les arguments si ils ne contiennent que des entiers entre 0 et 2147483647
+**	Check sur tout les arguments si ils ne contiennent que des entiers
+**	entre 0 et 2147483647
 */
 t_bool	ft_isdigit(char **arg)
 {
@@ -27,10 +28,7 @@ t_bool	ft_isdigit(char **arg)
 		while (arg[i][j])
 		{
 			if (arg[i][j] < '0' || arg[i][j] > '9')
-			{
-				printf("arg[i][j] = %c\n", arg[i][j]);
 				return (FALSE);
-			}
 			j++;
 		}
 		i++;
@@ -41,7 +39,6 @@ t_bool	ft_isdigit(char **arg)
 /*
 **	Free tout les maillons de ma liste t_thread *thread.
 */
-
 unsigned int	ft_atoi(const char *str, t_bool *ret)
 {
 	int				i;
@@ -54,8 +51,12 @@ unsigned int	ft_atoi(const char *str, t_bool *ret)
 	{
 		res = (res * 10) + (str[i] - 48);
 		if (res >= 429496729 && str[i + 1])
-			if (res > 429496729 || (res == 429496729 && str[i + 1] >= '5'))
-				ret = 0;
+			if (res > 429496729 || (res == 429496729 && str[i + 1] > '5'))
+			{
+				if (ret)
+					*ret = 0;
+				return (0);
+			}
 		i++;
 	}
 	return (res);

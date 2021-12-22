@@ -6,44 +6,11 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 01:30:20 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/21 00:13:22 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:37:29 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-/*
-**	crée ma liste chainée de N philo.
-*/
-t_bool	create_philo(int nb_philo, t_thread *thread, int ac, char **av)
-{
-	int			i;
-	t_thread	*tmp;
-	t_data		data;
-
-	if (!init_data(&data, ac, av))
-	{
-		printf("FUCK\n");
-		return (FALSE);
-	}
-	i = 0;
-	while (i < nb_philo)
-	{
-		thread = (t_thread*)malloc(sizeof(t_thread));
-		if (!thread)
-		{
-			printf("FUCK\n");
-			return (FALSE);
-		}
-		if (!i)
-			tmp = thread;
-		thread->id = i + 1;
-		thread->data = data;
-		thread = thread->next;
-	}
-	thread = tmp;
-	return (TRUE);
-}
 
 /*
 **	Initialise les valeurs passé en paramètre à la structure data.
@@ -66,38 +33,62 @@ t_bool	init_data(t_data *data, int ac, char **av)
 		data->ac_6 = 0;
 	if (!ret)
 	{
-		printf("FUCK\n");
+		free(data);
 		return (FALSE);
 	}
 	if (pthread_mutex_init(&(data->lock), NULL))
-	{
-		printf("Error init mutex");
 		return (FALSE);
+	return (TRUE);
+}
+
+/*
+**	crée ma liste chainée de N philo.
+*/
+t_bool	create_philo(unsigned int nb_philo, t_thread **tmp, int ac, char **av)
+{
+	unsigned int	i;
+	t_data			*data;
+	t_thread		*ptr;
+
+	data = (t_data *)malloc(sizeof(t_data));
+	if (nb_philo == 0 || !init_data(data, ac, av))
+		return (FALSE);
+	i = 1;
+	*tmp = ft_create_elem(data, 1);
+	if (!tmp)
+		return (FALSE);
+	ptr = *tmp;
+	while (i < nb_philo)
+	{
+		ft_list_push_back(tmp, data, i + 1);
+		i++;
 	}
-	printdata(*data);
+	i = 0;
+	while ((*tmp)->next)
+		*tmp = (*tmp)->next;
+	(*tmp)->next = ptr;
+	*tmp = (*tmp)->next;
 	return (TRUE);
 }
 
 /*
 **	rempli mes structures thread et data.
 */
-t_bool	set_data(int ac, char **av, t_thread *thread)
+t_bool	set_data(int ac, char **av, t_thread **thread)
 {
-	if ((ac < 5 || ac > 6))
+	t_bool	ret;
+
+	ft_atoi(av[1], &ret);
+	if (ret == 0 || (ac != 5 && ac != 6) || !ft_isdigit(av))
 	{
-		printf("Usage:\n%s <NUM1> <NUM2> <NUM3> <NUM4> (optionnal)<NUM5>.\n\nNUM can only be a positive \
-integer between 1 and 4294967295, and contain nothing else than a digit.\n", av[0]);
+		printf("Usage:\n%s <NUM1> <NUM2> <NUM3> <NUM4> (optionnal)<NUM5>.\n\nN\
+UM can only be a positive integer between 0 and 4294967295, and contain nothin\
+g else than a digit.\n", av[0]);
 		return (FALSE);
 	}
-	if (!ft_isdigit(av))
-	{
-		printf("ptn relou\n");
+	if (ft_atoi(av[1], NULL) == 0 || (ac == 6 && ft_atoi(av[5], NULL) == 0))
 		return (FALSE);
-	}
 	if (!create_philo(ft_atoi(av[1], NULL), thread, ac, av))
-	{
-		printf("NTM\n");
 		return (FALSE);
-	}
 	return (TRUE);
 }

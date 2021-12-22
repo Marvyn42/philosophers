@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 19:21:39 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/20 14:04:56 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:30:49 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_calloc(size_t count, size_t size)
 	unsigned char	*ptr;
 	size_t			i;
 
-	ptr = (unsigned char*)malloc(size * count);
+	ptr = (unsigned char *)malloc(size * count);
 	if (!ptr)
 		return (0);
 	i = 0;
@@ -29,31 +29,35 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
-void	ft_free(t_thread *thread)
+void	ft_free(t_thread **thread)
 {
-	t_thread	*tmp;
+	t_thread		*tmp;
+	unsigned int	nb_philo;
 
-	while (thread)
+	nb_philo = (*thread)->data->number_of_philosophers;
+	free((*thread)->data);
+	while (nb_philo-- != 0 && thread)
 	{
-		tmp = thread->next;
-		free(thread);
-		thread = tmp;
+		tmp = (*thread)->next;
+		free(*thread);
+		*thread = tmp;
 	}
+	thread = NULL;
 }
 
-t_bool	close_data(t_thread *thread)
+t_bool	close_data(t_thread **thread, t_bool tmp)
 {
 	unsigned int	i;
 
 	i = 0;
-	while (i < thread->data.number_of_philosophers)
+	while (tmp && i < (*thread)->data->number_of_philosophers)
 	{
-		if (pthread_join(thread->philo, NULL) != 0)
+		if (pthread_join((*thread)->philo, NULL) != 0)
 			return (FALSE);
-		thread = thread->next;
+		*thread = (*thread)->next;
 		i++;
 	}
-	pthread_mutex_destroy(&(thread->data.lock));
+	pthread_mutex_destroy(&((*thread)->data->lock));
 	ft_free(thread);
 	return (TRUE);
 }
