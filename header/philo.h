@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/22 13:49:21 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/23 13:36:47 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ typedef enum e_bool
 	TRUE
 }			t_bool;
 
-typedef enum e_fork
+typedef enum e_err
 {
 	unavailable = 0,
 	available,
-}			t_fork;
+}			t_err;
 
 typedef struct s_data
 {
@@ -42,17 +42,18 @@ typedef struct s_data
 	t_bool			ac_6;
 	t_bool			stop;
 	pthread_mutex_t	lock;
-	t_fork			fork;
 }			t_data;
 
 typedef struct s_thread	t_thread;
 typedef struct s_thread
 {
 	unsigned int	id;
-	unsigned int	nb_meal;
-	t_bool			is_dead;
 	pthread_t		philo;
 	t_data			*data;
+	pthread_mutex_t	rfork;
+	pthread_mutex_t	*lfork;
+	unsigned int	nb_meal;
+	t_bool			is_dead;
 	t_thread		*next;
 }			t_thread;
 

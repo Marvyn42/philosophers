@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 15:07:54 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/22 17:22:47 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/23 18:42:16 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,30 @@ t_bool	all_satiated(t_thread *thread)
 	return (TRUE);
 }
 
+t_bool	init_data()
+{
+	//init data
+	//init liste chainées
+		//init mutex
+}
+
 int	main(int ac, char **av)
 {
-	unsigned int	i;
 	t_thread		*thread;
-	t_bool			tmp;
+	t_data			data;
+	unsigned int	i;
 
 	thread = NULL;
-	tmp = 0;
 	i = 0;
-	if (!set_data(ac, av, &thread))
-		return (EXIT_FAILURE);
+	//parse
+	if (!parse_data(ac, av))
+		return (EXIT_FAILURE); //TODO:	return une fct d'erreur qui set un message.
+	if (ft_atoi(av[1], NULL) == 0 || (ac == 6 && ft_atoi(av[5], NULL) == 0))
+		return (EXIT_SUCCESS);
+	//init
+	if (!init_data())
+		return (EXIT_FAILURE); //TODO:	return une fct d'erreur qui set un message.
+	//créer les threads
 	while (i < thread->data->number_of_philosophers)
 	{
 		if (pthread_create(&thread->philo, NULL, philo_routine, thread) != 0)
@@ -69,39 +82,7 @@ int	main(int ac, char **av)
 		thread = thread->next;
 		i++;
 	}
-	i = 0;
-	while (!tmp && thread)
-	{
-		if (thread->is_dead)
-			{
-		// 		//print un message de mort du thread, et ne rien afficher d'autre (set stop à 1)
-		// 		//la boucle du thread qui est conditionné par (check_stop || check_fini de manger N fois) prendra fin = fin du thread.
-		// 		thread->data->stop = 1;
-			}
-		usleep(100);//sleep pour ne pas surcharger le CPU lors de la boucle.
-		if (thread->nb_meal == 0)
-		{
-			usleep(100);//sleep pour laisser le temps aux threads de finir de manger
-			if (all_satiated(thread))
-			{
-				printf("Ils ont tous mangé\n");
-				tmp = 1;
-			}
-		}
-		thread = thread->next;
-		i++;
-	}
-	if (!close_data(&thread, tmp))
-		return (EXIT_FAILURE);
+	//boucler sur les conditions
+	//free
 	return (EXIT_SUCCESS);
 }
-
-/*
-**	printf("DATA dans main avant de close data:\n");
-**	printdata(thread);
-**	printf("--------------------------------------------------\n");
-**	if (!close_data(&thread, tmp))
-**		return (EXIT_FAILURE);
-**	printf("Sortie de main fct.\n");
-**	return (EXIT_SUCCESS);
-*/

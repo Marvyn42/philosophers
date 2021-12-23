@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:09 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/22 17:03:14 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/23 11:38:06 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ void	*philo_routine(void *ptr)
 		if (!thread->data->stop && pthread_mutex_lock(&thread->data->lock) == 0)
 		{
 			printf("timestamp_in_ms %u is eating.\nnb_meal = %d.\n", thread->id, thread->nb_meal);
+			pthread_mutex_unlock(&thread->data->lock);
 			usleep(thread->data->time_to_eat);
 			if (thread->data->ac_6)
 				thread->nb_meal--;
+			pthread_mutex_lock(&thread->data->lock);
 			printf("timestamp_in_ms %u is sleeping.\n\n", thread->id);
-			usleep(thread->data->time_to_sleep);
 			pthread_mutex_unlock(&thread->data->lock);
+			usleep(thread->data->time_to_sleep);
 		}
 	}
 	// 	// printf("timestamp_in_ms %d has taken a fork.\n", tmp->id);
