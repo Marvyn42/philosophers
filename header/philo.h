@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/23 13:36:47 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/28 14:51:55 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,25 @@ typedef enum e_bool
 	TRUE
 }			t_bool;
 
-typedef enum e_err
+typedef enum e_free
 {
-	unavailable = 0,
-	available,
-}			t_err;
+	NONE = 0,
+	LIST,
+	MUTEX,
+	FORK,
+	JOIN,
+	ALL,
+}			t_free;
+
+typedef enum e_error
+{
+	ERR_ARG = 0,
+	ERR_MALLOC,
+	ERR_MUTEX,
+	ERR_DESTROY,
+	ERR_LIST,
+	ERR_JOIN,
+}			t_error;
 
 typedef struct s_data
 {
@@ -38,10 +52,10 @@ typedef struct s_data
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
-	unsigned int	number_of_times_each_philosopher_must_eat;
-	t_bool			ac_6;
+	unsigned int	nb_meal_must_eat;
 	t_bool			stop;
 	pthread_mutex_t	lock;
+	pthread_mutex_t	print;
 }			t_data;
 
 typedef struct s_thread	t_thread;
@@ -58,37 +72,60 @@ typedef struct s_thread
 }			t_thread;
 
 /*
-**	memory_allocation.c
-*/
-void			*ft_calloc(size_t count, size_t size);
-void			ft_free(t_thread **thread);
-t_bool			close_data(t_thread **thread, t_bool tmp);
-
-/*
 **	utils.c
 */
-unsigned int	ft_atoi(const char *str, t_bool *ret);
-t_bool			ft_isdigit(char **arg);
-
-/*
-**	data_struct.c
-*/
-t_bool			create_philo(unsigned int nb_philo, t_thread **tmp, int ac,
-					char **av);
-t_bool			init_data(t_data *data, int ac, char **av);
-t_bool			set_data(int ac, char **av, t_thread **thread);
-
-/*
-**	list.c
-*/
-t_thread		*ft_create_elem(t_data *data, unsigned int id);
-void			ft_list_push_back(t_thread **begin_list, t_data *data,
-					unsigned int id);
+unsigned int	ft_atoi(const char *str);
 
 /*
 **	routine.c
 */
 void			*philo_routine(void *data);
+
+/*
+**	parse.c
+*/
+t_bool			check_uint_max(const char *str);
+t_bool			ft_isdigit(char **arg);
+t_bool			size_max(int ac, char **av);
+t_bool			parsing(int ac, char **av);
+
+/*
+**	init.c
+*/
+t_bool			init_fork(t_thread **thread);
+t_bool			init_mutex(t_thread **thread, t_data *data);
+t_bool			create_philo(unsigned int nb_philo, t_thread **thread, t_data *data);
+void			init_data(t_data *data, int ac, char **av);
+t_bool			initialisation(t_thread **thread, t_data *data, char **av, int ac);
+
+/*
+**	error.c
+*/
+t_bool			print_err(char *str);
+char			*err_message(t_error err_code);
+t_bool			error(t_error err_code, t_free free_code, t_thread **thread);
+
+/*
+**	destroy.c
+*/
+t_bool			join_thread(t_thread **thread);
+t_bool			fork_destroy(t_thread **thread);
+void			free_list(t_thread **thread);
+t_bool			mutex_destroy(t_thread **thread);
+t_bool			free_data(t_free free_code, t_thread **thread);
+
+/*
+**	conditions.c
+*/
+t_bool			all_satiated(t_thread *thread);
+
+/*
+**	list.c
+*/
+t_thread		*ft_create_elem(t_data *data, unsigned int id);
+t_bool			ft_list_push_back(t_thread **begin_list, t_data *data,
+					unsigned int id);
+
 
 //TODO:REMOVE
 void	printdata(t_thread *thread);

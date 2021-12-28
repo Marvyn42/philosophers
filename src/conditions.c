@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   conditions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 13:18:10 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/28 14:25:29 by mamaquig         ###   ########.fr       */
+/*   Created: 2021/12/28 03:26:09 by mamaquig          #+#    #+#             */
+/*   Updated: 2021/12/28 03:26:17 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-unsigned int	ft_atoi(const char *str)
+t_bool	all_satiated(t_thread *thread)
 {
-	int				i;
-	unsigned int	res;
+	unsigned int	i;
 
 	i = 0;
-	res = 0;
-	while (str[i])
+	while (i < thread->data->number_of_philosophers)
 	{
-		res = (res * 10) + (str[i] - 48);
+		// printf("i = %d\nID %d -> nb_meal = %d\n", i, thread->id, thread->nb_meal);
+		if (thread->nb_meal != 0)
+			return (FALSE);
+		thread = thread->next;
 		i++;
 	}
-	return (res);
+	return (TRUE);
 }

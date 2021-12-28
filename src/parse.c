@@ -6,25 +6,42 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 18:24:35 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/23 18:38:06 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/28 14:23:20 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-**	Check si les arguments sont plus grand que unsigned int max (4294967295).
+**	retourne FALSE si STR to INT est plus grand que uint max (4294967295).
+*/
+t_bool	check_uint_max(const char *str)
+{
+	int				i;
+	unsigned int	res;
+
+	i = 0;
+	res = 0;
+	while (str[i])
+	{
+		res = (res * 10) + (str[i] - 48);
+		if (res >= 429496729 && str[i + 1])
+			if (res > 429496729 || (res == 429496729 && str[i + 1] > '5'))
+				return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+/*
+**	Check sur tout les arguments leur taille.
 */
 t_bool	size_max(int ac, char **av)
 {
-	t_bool	ret;
-
-	ret = 1;
 	while (ac)
 	{
-		ft_atoi(av[ac], &ret);
-		if (!ret)
-			return (FALSE); //TODO: code err
+		if (!check_uint_max(av[ac]))
+			return (FALSE);
 		ac--;
 	}
 	return (TRUE);
@@ -45,7 +62,7 @@ t_bool	ft_isdigit(char **arg)
 		while (arg[i][j])
 		{
 			if (arg[i][j] < '0' || arg[i][j] > '9')
-				return (FALSE); //TODO: code err
+				return (FALSE);
 			j++;
 		}
 		i++;
@@ -56,17 +73,12 @@ t_bool	ft_isdigit(char **arg)
 /*
 **	Check sur tout les arguments sont corrects.
 */
-t_bool	parse_data(int ac, char **av)
+t_bool	parsing(int ac, char **av)
 {
 	t_bool	ret;
 
 	if (!ft_isdigit(av) || (ac != 5 && ac != 6) || !size_max(ac - 1, av))
-	{//print err code ???
-		printf("Usage:\n%s <NUM1> <NUM2> <NUM3> <NUM4> (optionnal)<NUM5>.\n\nN\
-UM can only be a positive integer between 0 and 4294967295, and contain nothin\
-g else than a positive digit.\n", av[0]);
-		return (FALSE);//TODO: code err ???
-	}
+		return (error(ERR_ARG, NONE, NULL));
 	return (TRUE);
 }
 ;
