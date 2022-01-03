@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:26:59 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/28 14:52:37 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/01 23:08:07 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,18 @@ nothing else than a positive digit.\n");
 		return ("Error, can not create mutex.\n");
 	if (err_code == ERR_LIST)
 		return ("Error during list creation.\n");
+	if (err_code == ERR_LOCK)
+		return ("Error, can not lock a mutex.\n");
+	if (err_code == ERR_UNLOCK)
+		return ("Error, can not unlock a mutex.\n");
+	if (err_code == ERR_THREAD)
+		return ("Error, can not create a thread.\n");
 	return ("Unknow error\n");
 }
 
 t_bool	error(t_error err_code, t_free free_code, t_thread **thread)
 {
+	//set data->stop, trouver la condition pour le faire (philo_set ?)
 	print_err(err_message(err_code));
 	if (free_code != NONE)
 		free_data(free_code, thread);

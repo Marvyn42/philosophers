@@ -6,7 +6,7 @@
 #    By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/20 22:46:26 by mamaquig          #+#    #+#              #
-#    Updated: 2021/12/21 17:42:45 by mamaquig         ###   ########.fr        #
+#    Updated: 2022/01/02 21:30:46 by mamaquig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,14 @@ NAME		=	philo
 SRC			=	$(addprefix src/,				\
 					main.c						\
 					routine.c					\
-					data_struct.c				\
-					memory_allocation.c			\
 					utils.c						\
 					list.c						\
+					init.c						\
+					destroy.c					\
+					parse.c						\
+					error.c						\
+					to_do.c						\
+					conditions.c				\
 				)
 OBJ			=	$(SRC:.c=.o)
 CC			=	gcc

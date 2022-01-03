@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/28 14:51:55 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/03 02:21:40 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,14 @@ typedef enum e_error
 	ERR_DESTROY,
 	ERR_LIST,
 	ERR_JOIN,
+	ERR_LOCK,
+	ERR_UNLOCK,
+	ERR_THREAD,
 }			t_error;
 
 typedef struct s_data
 {
+	unsigned int	philo_set;
 	unsigned int	number_of_philosophers;
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
@@ -74,11 +78,14 @@ typedef struct s_thread
 /*
 **	utils.c
 */
+t_bool			print_mess(t_data *data, unsigned int philo_id, char *to_do);
 unsigned int	ft_atoi(const char *str);
 
 /*
 **	routine.c
 */
+t_bool			all_thread_set(t_data *data);
+t_bool			is_satiated(t_thread *thread);
 void			*philo_routine(void *data);
 
 /*
@@ -117,6 +124,7 @@ t_bool			free_data(t_free free_code, t_thread **thread);
 /*
 **	conditions.c
 */
+t_bool			still_running(t_data *data);
 t_bool			all_satiated(t_thread *thread);
 
 /*
@@ -126,8 +134,11 @@ t_thread		*ft_create_elem(t_data *data, unsigned int id);
 t_bool			ft_list_push_back(t_thread **begin_list, t_data *data,
 					unsigned int id);
 
-
-//TODO:REMOVE
-void	printdata(t_thread *thread);
+/*
+**	to_do.c
+*/
+t_bool			do_think(t_thread *thread);
+t_bool			do_eat(t_thread *thread);
+t_bool			do_sleep(t_thread *thread);
 
 #endif

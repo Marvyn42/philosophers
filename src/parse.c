@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 18:24:35 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/28 14:23:20 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/12/31 16:51:33 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ t_bool	ft_isdigit(char **arg)
 */
 t_bool	parsing(int ac, char **av)
 {
-	t_bool	ret;
-
-	if (!ft_isdigit(av) || (ac != 5 && ac != 6) || !size_max(ac - 1, av))
+	if ((ac != 5 && ac != 6) || !ft_isdigit(av) || !size_max(ac - 1, av))
 		return (error(ERR_ARG, NONE, NULL));
 	return (TRUE);
 }

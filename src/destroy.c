@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:27:41 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/28 14:29:52 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/03 01:21:01 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,35 @@ t_bool	fork_destroy(t_thread **thread)
 		*thread = (*thread)->next;
 		i++;
 	}
+	return (TRUE);
 }
 
 t_bool	mutex_destroy(t_thread **thread)
 {
-	if (!pthread_mutex_destroy(&((*thread)->data->lock)))
-		return (print_err(err_message(ERR_DESTROY)));
-	if (!pthread_mutex_destroy(&((*thread)->data->print)))
-		return (print_err(err_message(ERR_DESTROY)));
+	unsigned int	i;
+
+	i = 0;
+	while (i < (*thread)->data->number_of_philosophers)
+	{
+		if (pthread_mutex_destroy(&((*thread)->data->lock)) != 0)
+				return (print_err(err_message(ERR_DESTROY)));
+		if (pthread_mutex_destroy(&((*thread)->data->print)) != 0)
+				return (print_err(err_message(ERR_DESTROY)));
+		i++;
+	}
 	return (TRUE);
 }
 
 t_bool	free_data(t_free free_code, t_thread **thread)
 {
-	if (free_code >= MUTEX)
-		if (!mutex_destroy(thread))
+	if (free_code >= JOIN)
+		if (!join_thread(thread))
 			return (FALSE);
 	if (free_code >= FORK)
 		if (!fork_destroy(thread))
 			return (FALSE);
-	if (free_code >= JOIN)
-		if (!join_thread(thread))
+	if (free_code >= MUTEX)
+		if (!mutex_destroy(thread))
 			return (FALSE);
 	free_list(thread);
 	return (TRUE);

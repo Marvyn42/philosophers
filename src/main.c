@@ -6,35 +6,45 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 15:07:54 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/28 14:29:56 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/03 02:21:26 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/*
-**	TODO:	À supprimer
+//MAIN:
+/*			La boucle se stop quand:
+	data->stop est set
+	tout le monde à mangé
+	un philo meurt, on set donc data->stop
 */
-void	printdata(t_thread *thread)
+
+//ROUTINE:
+/*			La boucle se stop quand:
+	data->stop est set
+*/
+
+t_bool	condition_running(t_thread *thread)
 {
 	unsigned int	i;
 
-	i = thread->data->number_of_philosophers;
-	while (i)
+	i = 0;
+	while (i < thread->data->number_of_philosophers)
 	{
-		printf("DATA:\n");
-		printf("id = %u\n", thread->id);
-		printf("%u\n", thread->data->number_of_philosophers);
-		printf("%u\n", thread->data->time_to_die);
-		printf("%u\n", thread->data->time_to_eat);
-		printf("%u\n", thread->data->time_to_sleep);
-		printf("%u\n", thread->data->nb_meal_must_eat);
-		printf("\n\n");
+		if (thread->data->stop)
+			return (FALSE);
+		//fct qui check le time_to_eat
+		if (thread->data->nb_meal_must_eat)
+			if (thread->nb_meal == thread->data->nb_meal_must_eat)
+				return (all_satiated(thread));
 		thread = thread->next;
-		i--;
+		i++;
 	}
+	return (TRUE);
 }
-
+//TODO: Avoir la fct du temps pour check les morts
+//TODO: refaire la fct usleep ?
+//TODO: refaire la fct gettimeofday ?
 int	main(int ac, char **av)
 {
 	t_thread		*thread;
@@ -49,20 +59,16 @@ int	main(int ac, char **av)
 		return (EXIT_SUCCESS);
 	if (!initialisation(&thread, &data, av, ac))
 		return (EXIT_FAILURE);
-	//créer les threads
 	while (i < thread->data->number_of_philosophers)
 	{
 		if (pthread_create(&thread->philo, NULL, philo_routine, thread) != 0)
-			return (EXIT_FAILURE);
+			return (error(ERR_THREAD, ALL, &thread));
 		thread = thread->next;
 		i++;
 	}
-	//boucler sur les conditions: still_runing
-	while ()
-	{
-		//
-	}
-	if (!free_data(ALL, thread))
+	while (condition_running(thread))
+		usleep(100);
+	if (!free_data(ALL, &thread))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

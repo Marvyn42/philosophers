@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:26:29 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/28 14:45:09 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/03 00:46:49 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 t_bool	init_fork(t_thread **thread)
 {
 	unsigned int	i;
+	pthread_mutex_t	*tmp;
 
 	i = 0;
 	while (i < (*thread)->data->number_of_philosophers)
 	{
 		if (pthread_mutex_init(&((*thread)->rfork), NULL))
 			return (error(ERR_MUTEX, FORK, thread));
+		tmp = &(*thread)->rfork;
 		*thread = (*thread)->next;
 		i++;
+		(*thread)->lfork = tmp;
 	}
 	return (TRUE);
 }
@@ -39,7 +42,6 @@ t_bool	init_mutex(t_thread **thread, t_data *data)
 t_bool	create_philo(unsigned int nb_philo, t_thread **thread, t_data *data)
 {
 	unsigned int	i;
-	t_data			*data;
 	t_thread		*ptr;
 
 	i = 1;
@@ -68,11 +70,11 @@ void	init_data(t_data *data, int ac, char **av)
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	data->stop = 0;
+	data->philo_set = 0;
 	if (ac == 6)
 		data->nb_meal_must_eat = ft_atoi(av[5]);
 	else
 		data->nb_meal_must_eat = 0;
-	return (TRUE);
 }
 
 t_bool	initialisation(t_thread **thread, t_data *data, char **av, int ac)
