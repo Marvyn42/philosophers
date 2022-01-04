@@ -6,12 +6,15 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:26:59 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/01 23:08:07 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/04 00:48:33 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
+**	Affiche sur la sortie d'erreur la string passé en paramètre
+*/
 t_bool	print_err(char *str)
 {
 	unsigned int	i;
@@ -25,6 +28,9 @@ t_bool	print_err(char *str)
 	return (FALSE);
 }
 
+/*
+**	Renvoi le message d'erreur selon son code passé en paramètre
+*/
 char	*err_message(t_error err_code)
 {
 	if (err_code == ERR_ARG)
@@ -52,6 +58,9 @@ nothing else than a positive digit.\n");
 	return ("Unknow error\n");
 }
 
+/*
+**	Affiche l'erreur puis libère la mémoire si besoin
+*/
 t_bool	error(t_error err_code, t_free free_code, t_thread **thread)
 {
 	//set data->stop, trouver la condition pour le faire (philo_set ?)

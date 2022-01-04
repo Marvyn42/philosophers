@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:27:41 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/03 01:21:01 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/04 03:21:30 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ t_bool	fork_destroy(t_thread **thread)
 	i = 0;
 	while (i < (*thread)->data->number_of_philosophers)
 	{
+		if ((*thread)->data->number_of_philosophers == 1)
+			if (pthread_mutex_unlock((*thread)->lfork) != 0)
+				return (print_err(err_message(ERR_UNLOCK)));
 		if (pthread_mutex_destroy(&((*thread)->rfork)))
 			return (print_err(err_message(ERR_DESTROY)));
 		*thread = (*thread)->next;
@@ -67,14 +70,17 @@ t_bool	mutex_destroy(t_thread **thread)
 	while (i < (*thread)->data->number_of_philosophers)
 	{
 		if (pthread_mutex_destroy(&((*thread)->data->lock)) != 0)
-				return (print_err(err_message(ERR_DESTROY)));
+			return (print_err(err_message(ERR_DESTROY)));
 		if (pthread_mutex_destroy(&((*thread)->data->print)) != 0)
-				return (print_err(err_message(ERR_DESTROY)));
+			return (print_err(err_message(ERR_DESTROY)));
 		i++;
 	}
 	return (TRUE);
 }
 
+/*
+**	suite de fct qui libère la mémoire en fonction de ce qui a été alloué
+*/
 t_bool	free_data(t_free free_code, t_thread **thread)
 {
 	if (free_code >= JOIN)

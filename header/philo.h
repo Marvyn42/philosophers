@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/03 02:21:40 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/04 00:57:54 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <limits.h>
 # include <stdlib.h>
+# include <sys/time.h>
 
 typedef enum e_bool
 {
@@ -71,6 +72,7 @@ typedef struct s_thread
 	pthread_mutex_t	rfork;
 	pthread_mutex_t	*lfork;
 	unsigned int	nb_meal;
+	unsigned int	last_meal;
 	t_bool			is_dead;
 	t_thread		*next;
 }			t_thread;
@@ -78,6 +80,7 @@ typedef struct s_thread
 /*
 **	utils.c
 */
+void			ft_usleep(t_data *data, useconds_t us);
 t_bool			print_mess(t_data *data, unsigned int philo_id, char *to_do);
 unsigned int	ft_atoi(const char *str);
 
@@ -85,7 +88,6 @@ unsigned int	ft_atoi(const char *str);
 **	routine.c
 */
 t_bool			all_thread_set(t_data *data);
-t_bool			is_satiated(t_thread *thread);
 void			*philo_routine(void *data);
 
 /*
@@ -126,6 +128,9 @@ t_bool			free_data(t_free free_code, t_thread **thread);
 */
 t_bool			still_running(t_data *data);
 t_bool			all_satiated(t_thread *thread);
+t_bool			is_satiated(t_thread *thread);
+t_bool			condition_running(t_thread *thread);
+
 
 /*
 **	list.c
@@ -140,5 +145,10 @@ t_bool			ft_list_push_back(t_thread **begin_list, t_data *data,
 t_bool			do_think(t_thread *thread);
 t_bool			do_eat(t_thread *thread);
 t_bool			do_sleep(t_thread *thread);
+
+/*
+**	set_time.c
+*/
+unsigned int	set_time(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:26:29 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/03 00:46:49 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/04 00:49:10 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ void	init_data(t_data *data, int ac, char **av)
 		data->nb_meal_must_eat = 0;
 }
 
+/*
+**	suite de fct qui initialise et alloue la mémoire
+*/
 t_bool	initialisation(t_thread **thread, t_data *data, char **av, int ac)
 {
 	init_data(data, ac, av);

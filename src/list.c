@@ -6,12 +6,15 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 17:15:32 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/02 22:22:32 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/04 00:49:47 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
+**	Crée un maillion de liste
+*/
 t_thread	*ft_create_elem(t_data *data, unsigned int id)
 {
 	t_thread	*tmp;
@@ -23,10 +26,14 @@ t_thread	*ft_create_elem(t_data *data, unsigned int id)
 	tmp->id = id;
 	tmp->is_dead = 0;
 	tmp->nb_meal = 0;
+	tmp->last_meal = 0;
 	tmp->next = NULL;
 	return (tmp);
 }
 
+/*
+**	Ajoute un maillon en bout de liste
+*/
 t_bool	ft_list_push_back(t_thread **begin_list, t_data *data, unsigned int id)
 {
 	t_thread	*current;

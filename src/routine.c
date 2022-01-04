@@ -6,18 +6,17 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:09 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/03 02:19:39 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/04 00:59:15 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-**
+**	attend la création de tout les threads
 */
 t_bool	all_thread_set(t_data *data)
 {
-	//mettre un timer pour quitter au bout de 1 seconde. Càd qu'il y a erreur
 	data->philo_set++;
 	while (TRUE)
 	{
@@ -34,17 +33,7 @@ t_bool	all_thread_set(t_data *data)
 }
 
 /*
-**
-*/
-t_bool	is_satiated(t_thread *thread)
-{
-	if (thread->data->nb_meal_must_eat && thread->nb_meal == thread->data->nb_meal_must_eat)
-		return (TRUE);
-	return (FALSE);
-}
-
-/*
-**
+**	programme appliqué par chaque philo
 */
 void	*philo_routine(void *ptr)
 {

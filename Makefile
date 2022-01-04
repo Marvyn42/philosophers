@@ -6,7 +6,7 @@
 #    By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/20 22:46:26 by mamaquig          #+#    #+#              #
-#    Updated: 2022/01/02 21:30:46 by mamaquig         ###   ########.fr        #
+#    Updated: 2022/01/03 23:50:52 by mamaquig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC			=	$(addprefix src/,				\
 					error.c						\
 					to_do.c						\
 					conditions.c				\
+					set_time.c					\
 				)
 OBJ			=	$(SRC:.c=.o)
 CC			=	gcc
