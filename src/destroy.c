@@ -6,27 +6,11 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:27:41 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/04 03:21:30 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/05 11:55:22 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-
-t_bool	join_thread(t_thread **thread)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i < (*thread)->data->number_of_philosophers)
-	{
-		if (pthread_join((*thread)->philo, NULL) != 0)
-			return (FALSE);
-		*thread = (*thread)->next;
-		i++;
-	}
-	return (TRUE);
-}
 
 void	free_list(t_thread **thread)
 {
@@ -42,6 +26,21 @@ void	free_list(t_thread **thread)
 		nb_philo--;
 	}
 	thread = NULL;
+}
+
+t_bool	join_thread(t_thread **thread)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < (*thread)->data->number_of_philosophers)
+	{
+		if (pthread_join((*thread)->philo, NULL) != 0)
+			return (FALSE);
+		*thread = (*thread)->next;
+		i++;
+	}
+	return (TRUE);
 }
 
 t_bool	fork_destroy(t_thread **thread)

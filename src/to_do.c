@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 18:57:28 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/04 03:15:16 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/05 11:54:20 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_bool	do_think(t_thread *thread)
 /*
 **
 */
-t_bool	do_eat(t_thread *thread)//TODO: Compter le temps du dernier repas ?
+t_bool	do_eat(t_thread *thread)
 {
 	if (!print_mess(thread->data, thread->id, "is eating"))
 		return (FALSE);

@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:26:59 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/04 00:48:33 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/05 11:55:10 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*err_message(t_error err_code)
 {
 	if (err_code == ERR_ARG)
 	{
-		return("Usage:\n./philo <NUM1> <NUM2> <NUM3> <NUM4> (optionnal)<NUM5>.\
+		return ("Usage:\n./philo <NUM1> <NUM2> <NUM3> <NUM4> (optionnal)<NUM5>.\
 \n\nNUM can only be a positive integer between 0 and 4294967295, and contain\
 nothing else than a positive digit.\n");
 	}
@@ -63,7 +63,6 @@ nothing else than a positive digit.\n");
 */
 t_bool	error(t_error err_code, t_free free_code, t_thread **thread)
 {
-	//set data->stop, trouver la condition pour le faire (philo_set ?)
 	print_err(err_message(err_code));
 	if (free_code != NONE)
 		free_data(free_code, thread);

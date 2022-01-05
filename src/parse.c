@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 18:24:35 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/12/31 16:51:33 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/05 11:51:08 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,3 @@ t_bool	parsing(int ac, char **av)
 		return (error(ERR_ARG, NONE, NULL));
 	return (TRUE);
 }
-;

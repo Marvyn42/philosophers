@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:18:10 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/04 03:15:34 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/05 11:47:53 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 **	usleep plus précis
 */
-void	ft_usleep(t_data *data, useconds_t us)
+void	ft_usleep(t_data *data, unsigned int us)
 {
 	unsigned int	now;
 

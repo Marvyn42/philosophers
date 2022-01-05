@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/04 00:57:54 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/05 11:54:12 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,34 +78,22 @@ typedef struct s_thread
 }			t_thread;
 
 /*
-**	utils.c
+**	conditions.c
 */
-void			ft_usleep(t_data *data, useconds_t us);
-t_bool			print_mess(t_data *data, unsigned int philo_id, char *to_do);
-unsigned int	ft_atoi(const char *str);
+t_bool			is_died(t_thread *thread);
+t_bool			still_running(t_data *data);
+t_bool			all_satiated(t_thread *thread);
+t_bool			is_satiated(t_thread *thread);
+t_bool			condition_running(t_thread *thread);
 
 /*
-**	routine.c
+**	destroy.c
 */
-t_bool			all_thread_set(t_data *data);
-void			*philo_routine(void *data);
-
-/*
-**	parse.c
-*/
-t_bool			check_uint_max(const char *str);
-t_bool			ft_isdigit(char **arg);
-t_bool			size_max(int ac, char **av);
-t_bool			parsing(int ac, char **av);
-
-/*
-**	init.c
-*/
-t_bool			init_fork(t_thread **thread);
-t_bool			init_mutex(t_thread **thread, t_data *data);
-t_bool			create_philo(unsigned int nb_philo, t_thread **thread, t_data *data);
-void			init_data(t_data *data, int ac, char **av);
-t_bool			initialisation(t_thread **thread, t_data *data, char **av, int ac);
+void			free_list(t_thread **thread);
+t_bool			join_thread(t_thread **thread);
+t_bool			fork_destroy(t_thread **thread);
+t_bool			mutex_destroy(t_thread **thread);
+t_bool			free_data(t_free free_code, t_thread **thread);
 
 /*
 **	error.c
@@ -115,22 +103,15 @@ char			*err_message(t_error err_code);
 t_bool			error(t_error err_code, t_free free_code, t_thread **thread);
 
 /*
-**	destroy.c
+**	init.c
 */
-t_bool			join_thread(t_thread **thread);
-t_bool			fork_destroy(t_thread **thread);
-void			free_list(t_thread **thread);
-t_bool			mutex_destroy(t_thread **thread);
-t_bool			free_data(t_free free_code, t_thread **thread);
-
-/*
-**	conditions.c
-*/
-t_bool			still_running(t_data *data);
-t_bool			all_satiated(t_thread *thread);
-t_bool			is_satiated(t_thread *thread);
-t_bool			condition_running(t_thread *thread);
-
+t_bool			init_fork(t_thread **thread);
+t_bool			init_mutex(t_thread **thread, t_data *data);
+t_bool			create_philo(unsigned int nb_philo, t_thread **thread,
+					t_data *data);
+void			init_data(t_data *data, int ac, char **av);
+t_bool			initialisation(t_thread **thread, t_data *data, char **av,
+					int ac);
 
 /*
 **	list.c
@@ -140,6 +121,25 @@ t_bool			ft_list_push_back(t_thread **begin_list, t_data *data,
 					unsigned int id);
 
 /*
+**	parse.c
+*/
+t_bool			check_uint_max(const char *str);
+t_bool			size_max(int ac, char **av);
+t_bool			ft_isdigit(char **arg);
+t_bool			parsing(int ac, char **av);
+
+/*
+**	routine.c
+*/
+t_bool			all_thread_set(t_data *data);
+void			*philo_routine(void *data);
+
+/*
+**	set_time.c
+*/
+unsigned int	set_time(void);
+
+/*
 **	to_do.c
 */
 t_bool			do_think(t_thread *thread);
@@ -147,8 +147,10 @@ t_bool			do_eat(t_thread *thread);
 t_bool			do_sleep(t_thread *thread);
 
 /*
-**	set_time.c
+**	utils.c
 */
-unsigned int	set_time(void);
+void			ft_usleep(t_data *data, unsigned int us);
+t_bool			print_mess(t_data *data, unsigned int philo_id, char *to_do);
+unsigned int	ft_atoi(const char *str);
 
 #endif
