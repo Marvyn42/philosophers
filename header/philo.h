@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:49 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/05 11:54:12 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/07 19:05:24 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_thread
 	t_data			*data;
 	pthread_mutex_t	rfork;
 	pthread_mutex_t	*lfork;
+	pthread_mutex_t	plock;
 	unsigned int	nb_meal;
 	unsigned int	last_meal;
 	t_bool			is_dead;
@@ -80,10 +81,10 @@ typedef struct s_thread
 /*
 **	conditions.c
 */
+t_bool			stop_simulation(t_thread *thread);
 t_bool			is_died(t_thread *thread);
 t_bool			still_running(t_data *data);
-t_bool			all_satiated(t_thread *thread);
-t_bool			is_satiated(t_thread *thread);
+t_bool			not_satiated(t_thread *thread);
 t_bool			condition_running(t_thread *thread);
 
 /*
@@ -137,7 +138,7 @@ void			*philo_routine(void *data);
 /*
 **	set_time.c
 */
-unsigned int	set_time(void);
+unsigned int	set_time(t_data *data);
 
 /*
 **	to_do.c

@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:26:29 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/04 00:49:10 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/07 16:19:51 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_bool	init_fork(t_thread **thread)
 	i = 0;
 	while (i < (*thread)->data->number_of_philosophers)
 	{
+		if (pthread_mutex_init(&((*thread)->plock), NULL))
+			return (error(ERR_MUTEX, FORK, thread));
 		if (pthread_mutex_init(&((*thread)->rfork), NULL))
 			return (error(ERR_MUTEX, FORK, thread));
 		tmp = &(*thread)->rfork;

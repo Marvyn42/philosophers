@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 13:18:10 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/05 11:47:53 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/07 19:05:04 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_usleep(t_data *data, unsigned int us)
 {
 	unsigned int	now;
 
-	now = set_time();
-	while (still_running(data) && set_time() < now + us / 1000)
+	now = set_time(data);
+	while (still_running(data) && set_time(data) < now + us / 1000)
 		usleep(10);
 }
 
@@ -33,7 +33,7 @@ t_bool	print_mess(t_data *data, unsigned int philo_id, char *to_do)
 		return (TRUE);
 	if (pthread_mutex_lock(&(data->print)) != 0)
 		return (print_err(err_message(ERR_LOCK)));
-	printf("%u\t%u %s\n", set_time(), philo_id, to_do);
+	printf("%u\t%u %s\n", set_time(data), philo_id, to_do);
 	if (pthread_mutex_unlock(&(data->print)) != 0)
 		return (print_err(err_message(ERR_UNLOCK)));
 	return (TRUE);

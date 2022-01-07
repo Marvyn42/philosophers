@@ -6,12 +6,12 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 15:07:54 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/04 02:28:22 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/07 18:19:49 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-//TODO: Supprimer fsanitize
+
 int	main(int ac, char **av)
 {
 	t_thread		*thread;
@@ -33,7 +33,7 @@ int	main(int ac, char **av)
 		thread = thread->next;
 		i++;
 	}
-	while (condition_running(thread))
+	while (still_running(&data) && condition_running(thread))
 		usleep(100);
 	if (!free_data(ALL, &thread))
 		return (EXIT_FAILURE);

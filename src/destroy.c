@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:27:41 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/05 11:55:22 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:07:02 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ t_bool	fork_destroy(t_thread **thread)
 	i = 0;
 	while (i < (*thread)->data->number_of_philosophers)
 	{
-		if ((*thread)->data->number_of_philosophers == 1)
-			if (pthread_mutex_unlock((*thread)->lfork) != 0)
-				return (print_err(err_message(ERR_UNLOCK)));
 		if (pthread_mutex_destroy(&((*thread)->rfork)))
 			return (print_err(err_message(ERR_DESTROY)));
 		*thread = (*thread)->next;

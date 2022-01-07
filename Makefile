@@ -6,28 +6,28 @@
 #    By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/20 22:46:26 by mamaquig          #+#    #+#              #
-#    Updated: 2022/01/03 23:50:52 by mamaquig         ###   ########.fr        #
+#    Updated: 2022/01/07 19:24:29 by mamaquig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
 SRC			=	$(addprefix src/,				\
-					main.c						\
-					routine.c					\
-					utils.c						\
-					list.c						\
-					init.c						\
-					destroy.c					\
-					parse.c						\
-					error.c						\
-					to_do.c						\
 					conditions.c				\
+					destroy.c					\
+					error.c						\
+					init.c						\
+					list.c						\
+					main.c						\
+					parse.c						\
+					routine.c					\
 					set_time.c					\
+					to_do.c						\
+					utils.c						\
 				)
 OBJ			=	$(SRC:.c=.o)
 CC			=	gcc
-HEADER		=	-Iheader -lpthread
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address -g3
+HEADER		=	-Iheader -pthread
+CFLAGS		=	-Wall -Wextra -Werror #-fsanitize=thread -g3
 
 all: $(NAME)
 
