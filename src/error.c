@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:26:59 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/05 11:55:10 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/02/21 16:00:37 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*err_message(t_error err_code)
 	if (err_code == ERR_ARG)
 	{
 		return ("Usage:\n./philo <NUM1> <NUM2> <NUM3> <NUM4> (optionnal)<NUM5>.\
-\n\nNUM can only be a positive integer between 0 and 4294967295, and contain\
+\n\nNUM can only be a positive integer between 0 and 4294967295, and contain \
 nothing else than a positive digit.\n");
 	}
 	if (err_code == ERR_DESTROY)

@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:09 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/07 19:25:32 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/02/21 16:20:07 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 **	attend la création de tout les threads
 */
-t_bool	all_thread_set(t_data *data)//TODO: laisser print ??? remplacer par ->lock
+t_bool	all_thread_set(t_data *data)
 {
 	if (pthread_mutex_lock(&data->lock) != 0)
 		return (print_err(err_message(ERR_LOCK)));
