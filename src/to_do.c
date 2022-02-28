@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 18:57:28 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/07 19:05:41 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/02/28 14:39:40 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ t_bool	do_eat(t_thread *thread)
 	if (pthread_mutex_unlock(&thread->plock) != 0)
 		return (print_err(err_message(ERR_UNLOCK)));
 	ft_usleep(thread->data, thread->data->time_to_eat * 1000);
-	if (pthread_mutex_unlock(thread->lfork) != 0)
-		return (print_err(err_message(ERR_UNLOCK)));
 	if (pthread_mutex_unlock(&thread->rfork) != 0)
+		return (print_err(err_message(ERR_UNLOCK)));
+	if (pthread_mutex_unlock(thread->lfork) != 0)
 		return (print_err(err_message(ERR_UNLOCK)));
 	if (!still_running(thread->data))
 		return (FALSE);

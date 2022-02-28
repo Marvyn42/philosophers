@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:26:09 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/02/21 15:56:23 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:03:02 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_bool	stop_simulation(t_thread *thread)
 {
 	if (pthread_mutex_lock(&thread->data->lock) != 0)
-			return (print_err(err_message(ERR_LOCK)));
+		return (print_err(err_message(ERR_LOCK)));
 	thread->data->stop = 1;
 	if (pthread_mutex_unlock(&(thread->data->lock)) != 0)
 		return (print_err(err_message(ERR_UNLOCK)));
@@ -35,7 +35,8 @@ t_bool	is_died(t_thread *thread)
 	{
 		if (pthread_mutex_lock(&thread->plock) != 0)
 			return (print_err(err_message(ERR_LOCK)));
-		if (thread->last_meal + thread->data->time_to_die <= set_time(thread->data))
+		if (thread->last_meal + thread->data->time_to_die
+			<= set_time(thread->data))
 		{
 			if (pthread_mutex_unlock(&(thread->plock)) != 0)
 				return (print_err(err_message(ERR_UNLOCK)));
@@ -117,10 +118,8 @@ t_bool	condition_running(t_thread *thread)
 		thread = thread->next;
 		i++;
 	}
-	if (satiatied == thread->data->number_of_philosophers)
-	{
-		stop_simulation(thread);
-		return (FALSE);
-	}
-	return (TRUE);
+	if (satiatied != thread->data->number_of_philosophers)
+		return (TRUE);
+	stop_simulation(thread);
+	return (FALSE);
 }

@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 14:04:09 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/02/21 16:20:07 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/02/28 14:59:40 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void	*philo_routine(void *ptr)
 {
 	t_thread		*thread;
 
-	thread = ptr;
+	thread = (t_thread *)ptr;
 	if (!all_thread_set((thread->data)))
 		return (NULL);
 	if (thread->id % 2)
-		ft_usleep(thread->data, 100);
+		usleep(100);
 	while (still_running(thread->data))
 	{
 		if (not_satiated(thread))
