@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:27:41 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/07 03:07:02 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/02/28 19:18:49 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ t_bool	join_thread(t_thread **thread)
 	i = 0;
 	while (i < (*thread)->data->number_of_philosophers)
 	{
+		if ((*thread)->is_dead)
+			printf("%u\t%u %s\n", set_time((*thread)->data),
+				(*thread)->id, "died");
 		if (pthread_join((*thread)->philo, NULL) != 0)
 			return (FALSE);
 		*thread = (*thread)->next;

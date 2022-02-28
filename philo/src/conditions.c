@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 03:26:09 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/02/28 15:03:02 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/02/28 19:31:27 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ t_bool	is_died(t_thread *thread)
 		if (thread->last_meal + thread->data->time_to_die
 			<= set_time(thread->data))
 		{
+			thread->is_dead = TRUE;
+			stop_simulation(thread);
 			if (pthread_mutex_unlock(&(thread->plock)) != 0)
 				return (print_err(err_message(ERR_UNLOCK)));
-			print_mess(thread->data, thread->id, "died");
-			stop_simulation(thread);
 			return (FALSE);
 		}
 		if (pthread_mutex_unlock(&thread->plock) != 0)
@@ -49,24 +49,6 @@ t_bool	is_died(t_thread *thread)
 		thread = thread->next;
 		i++;
 	}
-	return (TRUE);
-}
-
-/*
-**	Check si il faut s'arrêter
-*/
-t_bool	still_running(t_data *data)
-{
-	if (pthread_mutex_lock(&(data->lock)) != 0)
-		return (print_err(err_message(ERR_LOCK)));
-	if (data->stop == 1)
-	{
-		if (pthread_mutex_unlock(&(data->lock)) != 0)
-			return (print_err(err_message(ERR_UNLOCK)));
-		return (FALSE);
-	}
-	if (pthread_mutex_unlock(&(data->lock)) != 0)
-		return (print_err(err_message(ERR_UNLOCK)));
 	return (TRUE);
 }
 
@@ -88,6 +70,24 @@ t_bool	not_satiated(t_thread *thread)
 		return (FALSE);
 	}
 	if (pthread_mutex_unlock(&thread->plock) != 0)
+		return (print_err(err_message(ERR_UNLOCK)));
+	return (TRUE);
+}
+
+/*
+**	Check si il faut s'arrêter
+*/
+t_bool	still_running(t_data *data)
+{
+	if (pthread_mutex_lock(&(data->lock)) != 0)
+		return (print_err(err_message(ERR_LOCK)));
+	if (data->stop == 1)
+	{
+		if (pthread_mutex_unlock(&(data->lock)) != 0)
+			return (print_err(err_message(ERR_UNLOCK)));
+		return (FALSE);
+	}
+	if (pthread_mutex_unlock(&(data->lock)) != 0)
 		return (print_err(err_message(ERR_UNLOCK)));
 	return (TRUE);
 }

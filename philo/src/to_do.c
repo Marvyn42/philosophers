@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 18:57:28 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/02/28 14:39:40 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/02/28 19:18:36 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_bool	do_think(t_thread *thread)
 		return (FALSE);
 	if (!print_mess(thread->data, thread->id, "is thinking"))
 		return (FALSE);
+	if (thread->id % 2)
+		usleep(150 * thread->data->number_of_philosophers);
 	if (pthread_mutex_lock(thread->lfork) != 0)
 		return (print_err(err_message(ERR_LOCK)));
 	if (!print_mess(thread->data, thread->id, "has taken a fork"))
@@ -43,6 +45,8 @@ t_bool	do_think(t_thread *thread)
 */
 t_bool	do_eat(t_thread *thread)
 {
+	unsigned int	start;
+
 	if (!print_mess(thread->data, thread->id, "is eating"))
 		return (FALSE);
 	if (pthread_mutex_lock(&thread->plock) != 0)
@@ -51,10 +55,13 @@ t_bool	do_eat(t_thread *thread)
 	thread->nb_meal++;
 	if (pthread_mutex_unlock(&thread->plock) != 0)
 		return (print_err(err_message(ERR_UNLOCK)));
-	ft_usleep(thread->data, thread->data->time_to_eat * 1000);
-	if (pthread_mutex_unlock(&thread->rfork) != 0)
-		return (print_err(err_message(ERR_UNLOCK)));
+	start = set_time(thread->data);
+	while (still_running(thread->data) && set_time(thread->data) - start
+		< thread->data->time_to_eat)
+		usleep(100);
 	if (pthread_mutex_unlock(thread->lfork) != 0)
+		return (print_err(err_message(ERR_UNLOCK)));
+	if (pthread_mutex_unlock(&thread->rfork) != 0)
 		return (print_err(err_message(ERR_UNLOCK)));
 	if (!still_running(thread->data))
 		return (FALSE);
@@ -66,11 +73,16 @@ t_bool	do_eat(t_thread *thread)
 */
 t_bool	do_sleep(t_thread *thread)
 {
+	unsigned int	start;
+
 	if (!still_running(thread->data))
 		return (FALSE);
 	if (!print_mess(thread->data, thread->id, "is sleeping"))
 		return (FALSE);
-	ft_usleep(thread->data, thread->data->time_to_sleep * 1000);
+	start = set_time(thread->data);
+	while (still_running(thread->data) && set_time(thread->data) - start
+		< thread->data->time_to_sleep)
+		usleep(100);
 	if (!still_running(thread->data))
 		return (FALSE);
 	return (TRUE);

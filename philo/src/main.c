@@ -6,7 +6,7 @@
 /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 15:07:54 by mamaquig          #+#    #+#             */
-/*   Updated: 2022/01/07 18:19:49 by mamaquig         ###   ########.fr       */
+/*   Updated: 2022/02/28 19:15:38 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ int	main(int ac, char **av)
 		thread = thread->next;
 		i++;
 	}
-	while (still_running(&data) && condition_running(thread))
-		usleep(100);
+	if (!all_thread_set((thread->data)))
+		if (!free_data(ALL, &thread))
+			return (EXIT_FAILURE);
+	while ((still_running(&data) && condition_running(thread)))
+		usleep(50);
 	if (!free_data(ALL, &thread))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
